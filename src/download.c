@@ -66,7 +66,11 @@ int download_to_buffer(const char* url, char** buf, uint32_t* length)
 
 	curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, (curl_write_callback)&download_write_buffer_callback);
 	curl_easy_setopt(handle, CURLOPT_WRITEDATA, &response);
-	curl_easy_setopt(handle, CURLOPT_USERAGENT, USER_AGENT_STRING);
+	if (strncmp(url, "https://api.ipsw.me/", 20) == 0) {
+		curl_easy_setopt(handle, CURLOPT_USERAGENT, USER_AGENT_STRING " idevicerestore/" PACKAGE_VERSION);
+	} else {
+		curl_easy_setopt(handle, CURLOPT_USERAGENT, USER_AGENT_STRING);
+	}
 	curl_easy_setopt(handle, CURLOPT_FOLLOWLOCATION, 1);
 	curl_easy_setopt(handle, CURLOPT_URL, url);
 
@@ -137,7 +141,7 @@ int download_to_file(const char* url, const char* filename, int enable_progress)
 	curl_easy_cleanup(handle);
 
 #ifdef WIN32
-	uint64_t sz = _ftelli64(f);
+	uint64_t sz = _lseeki64(fileno(f), 0, SEEK_CUR);
 #else
 	off_t sz = ftello(f);
 #endif

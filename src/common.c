@@ -32,6 +32,12 @@
 #include <libgen.h>
 #include <time.h>
 #include <sys/stat.h>
+#include <ctype.h>
+
+#ifdef WIN32
+#include <conio.h>
+#include <termios.h>
+#endif
 
 #include "common.h"
 
@@ -304,3 +310,45 @@ char* strsep(char** strp, const char* delim)
         return s;
 }
 #endif
+
+#ifdef WIN32
+#define BS_CC '\b'
+#define my_getch getch
+#else
+#define BS_CC 0x7f
+static int my_getch(void)
+{
+	struct termios oldt, newt;
+	int ch;
+	tcgetattr(STDIN_FILENO, &oldt);
+	newt = oldt;
+	newt.c_lflag &= ~(ICANON | ECHO);
+	tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+	ch = getchar();
+	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+	return ch;
+}
+#endif
+
+void get_user_input(char *buf, int maxlen, int secure)
+{
+	int len = 0;
+	int c;
+
+	while ((c = my_getch())) {
+		if ((c == '\r') || (c == '\n')) {
+			break;
+		} else if (isprint(c)) {
+			if (len < maxlen-1)
+				buf[len++] = c;
+			fputc((secure) ? '*' : c, stdout);
+		} else if (c == BS_CC) {
+			if (len > 0) {
+				fputs("\b \b", stdout);
+				len--;
+			}
+		}
+	}
+	fputs("\n", stdout);
+	buf[len] = 0;
+}
