@@ -35,8 +35,13 @@
 #include <ctype.h>
 
 #ifdef WIN32
+#include <windows.h>
 #include <conio.h>
+#else
+#include <sys/time.h>
+#include <pthread.h>
 #include <termios.h>
+#include <unistd.h>
 #endif
 
 #include "common.h"
