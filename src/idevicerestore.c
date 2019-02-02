@@ -99,12 +99,12 @@ void usage(int argc, char* argv[]) {
 	printf("  -t, --shsh\t\tfetch signing tickets and save to .shsh file, then exit\n");
 	printf("  -k, --keep-pers\twrite personalized components to files for debugging\n");
 	printf("  -p, --pwn\t\tput device in pwned DFU mode and exit (limera1n devices only)\n");
-    printf("           \t\tNOT compatible with virtual machines!");
+    printf("           \t\tNOT compatible with virtual machines!\n");
 	printf("  -n, --no-action\tDo not perform any restore action. If combined with -l option the on demand ipsw download is performed before exiting.\n");
-    printf("  -y, --no-input\t\tNon-interactive mode, do not ask for any input\n");
+    printf("  -y, --no-input\tNon-interactive mode, do not ask for any input\n");
 	printf("  -w, --downgrade\tdowngrade with a custom firmware (kDFU method, only for 32-bit devices!)\n");
 	printf("  -C, --cache-path DIR\tUse specified directory for caching extracted or other reused files.\n");
-    printf("  -o, --otamanifest BuildManifest.plist\tspecify OTA BuildManifest to sign bootfiles with a different ApTicket\n");
+    printf("  -o, --otamanifest \tspecify OTA BuildManifest to sign bootfiles with a different ApTicket\n");
     printf("  -b, --boot\t\tjust boot tethered (limera1n devices only)\n");
     printf("      --nobootx\t\tdoes not run \"bootx\" command\n");
     printf("  -g, --paniclog\tboot restore ramdisk, print paniclog (if available) and reboot\n\n");
