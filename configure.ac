@@ -19,7 +19,6 @@ AM_PROG_CC_C_O
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
-AC_SEARCH_LIBS([pthread_create], [pthread])
 PKG_CHECK_MODULES(libirecovery, libirecovery >= 0.2.0)
 PKG_CHECK_MODULES(libimobiledevice, libimobiledevice-1.0 >= 1.2.1)
 PKG_CHECK_MODULES(libplist, libplist >= 1.0)
@@ -31,7 +30,8 @@ PKG_CHECK_MODULES(zlib, zlib >= 1.2)
 
 GLOBAL_CFLAGS=""
 AC_LDADD=""
-AC_LDFLAGS=""AC_MSG_CHECKING([whether we need platform-specific build settings])
+AC_LDFLAGS=""
+AC_MSG_CHECKING([whether we need platform-specific build settings])
 case ${host_os} in
   *mingw32*|*cygwin*)
     AC_MSG_RESULT([yes])
