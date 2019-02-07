@@ -33,6 +33,7 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <ctype.h>
+#include <unistd.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -41,7 +42,6 @@
 #include <sys/time.h>
 #include <pthread.h>
 #include <termios.h>
-#include <unistd.h>
 #endif
 
 #include "common.h"

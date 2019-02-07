@@ -31,20 +31,24 @@ PKG_CHECK_MODULES(zlib, zlib >= 1.2)
 
 GLOBAL_CFLAGS=""
 AC_LDADD=""
-AC_LDFLAGS=""
-case "$host_os" in
-	darwin*)
-	;;
-	linux*)
-		GLOBAL_CFLAGS+="-lpthread"
-	;;
-	mingw*)
-		GLOBAL_CFLAGS+="-DWIN32 -D__LITTLE_ENDIAN__=1"
-		AC_LDFLAGS+="-static-libgcc"
-	;;
-	*)
-	;;
+AC_LDFLAGS=""AC_MSG_CHECKING([whether we need platform-specific build settings])
+case ${host_os} in
+  *mingw32*|*cygwin*)
+    AC_MSG_RESULT([yes])
+    win32=true
+    GLOBAL_CFLAGS+="-DWIN32 -D__LITTLE_ENDIAN__=1"
+    AC_LDFLAGS+="-static-libgcc"
+    ;;
+  darwin*)
+    AC_MSG_RESULT([no])
+    AX_PTHREAD([], [AC_MSG_ERROR([pthread is required to build $PACKAGE])])
+    ;;
+  *)
+    AC_MSG_RESULT([yes])
+    AX_PTHREAD([], [AC_MSG_ERROR([pthread is required to build $PACKAGE])])
+    ;;
 esac
+AM_CONDITIONAL(WIN32, test x$win32 = xtrue)
 
 AC_CHECK_FUNCS([strsep strcspn])
 if test x$ac_cv_func_strsep != xyes; then
