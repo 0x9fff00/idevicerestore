@@ -123,7 +123,8 @@ static const unsigned char *asn1_find_element(unsigned int index, unsigned char 
 	}
 
 	// find the element we are searching
-	for (int i = 0; i <= index; i++) {
+    int i = 0;
+	while (i <= index, i++) {
 		off += asn1_get_element(&data[off], &el_type, &el_size);
 		if (i == index)
 			break;
@@ -173,6 +174,7 @@ int img4_stitch_component(const char* component_name, const unsigned char* compo
 
 	// create element header for the "IMG4" magic
 	asn1_create_element_header(ASN1_IA5_STRING, IMG4_MAGIC_SIZE, &magic_header, &magic_header_size);
+    
 	// create element header for the blob (ApImg4Ticket)
 	asn1_create_element_header(ASN1_CONTEXT_SPECIFIC|ASN1_CONSTRUCTED, blob_size, &blob_header, &blob_header_size);
 
