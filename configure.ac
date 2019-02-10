@@ -37,7 +37,7 @@ case ${host_os} in
     AC_MSG_RESULT([yes])
     win32=true
     GLOBAL_CFLAGS+="-DWIN32 -D__LITTLE_ENDIAN__=1"
-    AC_LDFLAGS+="-static-libgcc"
+    AC_LDFLAGS+="-static-libgcc -lmsvcr100"
     ;;
   darwin*)
     AC_MSG_RESULT([no])
